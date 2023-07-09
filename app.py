@@ -1,18 +1,10 @@
-import rdkit
+
 import streamlit as st
 
-from rdkit import Chem
-from rdkit.Chem import AllChem as Chem
-from rdkit.Chem import Draw
-from rdkit import DataStructs
 
-from rdkit import DataStructs
 from rdkit.Chem import AllChem as Chem
-from rdkit.Chem import Draw
+
 from rdkit.Chem import Descriptors
-from rdkit.ML.Descriptors import MoleculeDescriptors
-from rdkit.Chem import Fragments
-from rdkit.Chem import rdMolDescriptors
 
 
 st.title('Построение предсказательной модели регрессии для прогнозирования ZOI')
@@ -33,13 +25,15 @@ def getMolDescriptors(mol, missingVal=None):  # Рассчет дескрипт�
         res[nm] = val
     return res
 
+dict_decr = getMolDescriptors(m)
 
 st.write('FpDensityMorgan1 =', getMolDescriptors(m)['FpDensityMorgan1'])
 st.write('EState_VSA7', getMolDescriptors(m)['EState_VSA7'])
 st.write('LabuteASA', getMolDescriptors(m)['LabuteASA'])
 if st.button('Вывести все дескрипторы для данного SMILES'):
-    st.write(getMolDescriptors(m))
-
+    st.write(dict_decr)
+else:
+    st.write('ok')
 
 
 
