@@ -9,7 +9,7 @@ from rdkit.Chem import Descriptors
 
 st.title('Построение предсказательной модели регрессии для прогнозирования ZOI')
 
-smiles = st.text_input('Введите SMILES', 'SMILES')
+smiles = st.text_input('Введите SMILES и нажмите Enter', 'SMILES')
 st.write('Вы ввели', smiles)
 
 m = Chem.MolFromSmiles(smiles)
@@ -22,6 +22,7 @@ def getMolDescriptors(mol, missingVal=None):  # Рассчет дескрипт�
             import traceback
             traceback.print_exc()
             val = missingVal
+
         res[nm] = val
     return res
 
@@ -35,12 +36,14 @@ if st.button('Вывести все дескрипторы для данного
 else:
     st.write('ok')
 
-
-
-
-
 genus = st.number_input('Insert genus')
 st.write('The current genus is ', genus)
+
+NP_concentraition = st.number_input('Insert NP_concentraition')
+st.write('The current NP_concentraition is ', NP_concentraition)
+
+Drug_dose = st.number_input('Insert Drug_dose')
+st.write('The current Drug_dose is ', Drug_dose)
 
 NP_Synthesis = st.number_input('Insert NP_Synthesis')
 st.write('The current NP_Synthesis is ', NP_Synthesis)
@@ -67,3 +70,5 @@ st.write('The current ZOI_NP is ', ZOI_NP)
 
 if st.button('Предсказать значение Zol_drag_np'):
     st.write('Прогнозируемое значение Zol_drag_np:')
+
+

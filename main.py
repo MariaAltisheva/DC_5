@@ -1,29 +1,15 @@
 import pandas as pd
 import numpy as np
-import sklearn
-from sklearn.model_selection import train_test_split
-from sklearn import linear_model
-from sklearn.tree import DecisionTreeRegressor
+
 from sklearn.ensemble import RandomForestRegressor
-from rdkit.Chem import AllChem as Chem
-from rdkit.Chem import Draw
-from rdkit import DataStructs
+
 
 import sklearn
 from sklearn import metrics
-from sklearn.metrics import accuracy_score
-from sklearn.utils import shuffle
-import matplotlib.pyplot as plt
 
-from rdkit import DataStructs
 from rdkit.Chem import AllChem as Chem
-from rdkit.Chem import Draw
-from rdkit.Chem import Descriptors
-from rdkit.ML.Descriptors import MoleculeDescriptors
-from rdkit.Chem import Fragments
-from rdkit.Chem import rdMolDescriptors
-import seaborn as sns
 
+from rdkit.Chem import Descriptors
 
 data = pd.read_csv('data.csv')
 drug_descriptors = pd.read_csv(r'drug_descriptors.csv')[['drug', 'smiles']]
@@ -139,13 +125,11 @@ data = data.loc[:, ['smiles', 'genus', 'NP_Synthesis', 'shape', 'NP size_min', '
 
 data = data[~data.loc[:, 'genus'].isna()]
 
-
 def normalize(dataset):
     dataset.iloc[:, :-1] = (dataset.iloc[:, :-1]-dataset.iloc[:, :-1].mean ())/dataset.iloc[:, :-1].std()
     return dataset
 
 def getMolDescriptors(mol, missingVal=None):
-
     res = {}
     for nm,fn in Descriptors._descList:
         # some of the descriptor fucntions can throw errors if they fail, catch those here:
@@ -159,16 +143,12 @@ def getMolDescriptors(mol, missingVal=None):
             val = missingVal
         res[nm] = val
     return res
-
-
 def data_desc(dataset):
   dataset.index = np.array(range(len(dataset.loc[:, 'smiles'])))
   descriptors = pd.DataFrame([getMolDescriptors(Chem.MolFromSmiles(data.iloc[0, :]['smiles']))]).T
   for mol in dataset.loc[1:, 'smiles']:
-
     d = pd.DataFrame([getMolDescriptors(Chem.MolFromSmiles(mol))]).T
     descriptors = pd.concat([descriptors, d], axis = 1)
-
   return descriptors.T
 
 #Заменим ZOI_drug_NP на флоты попутно заменив неккоректые значения
@@ -196,10 +176,5 @@ rg = sklearn.ensemble.GradientBoostingRegressor()
 rg.fit(x_train, y_train)
 rmse = (sklearn.metrics.mean_squared_error(rg.predict(x_test), y_test)**0.5).astype(float).round(3)
 r2 = (sklearn.metrics.r2_score(rg.predict(x_test), y_test)**0.5).astype(float).round(3)
-# plt.title('RMSE = '+str(rmse)+', R2 = '+str(r2))
-# plt.xlabel('experimental')
-# plt.ylabel('predicted')
-# plt.ylim(0, 50)
-# plt.xlim(0, 50)
-# plt.plot(rg.predict(x_test), y_test, 'ro'),  plt.plot([0, 50], [0, 50])
+
 print(r2)
