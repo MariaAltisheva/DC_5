@@ -28,3 +28,8 @@ st.write('The current ZOI_drug is ', ZOI_drug)
 
 ZOI_NP = st.number_input('Insert ZOI_NP')
 st.write('The current ZOI_NP is ', ZOI_NP)
+
+# if smiles and genus and NP_Synthesis and NP_Size_min and NP_Size_avg and avg_incup_period and growth_temp and ZOI_drug and ZOI_NP:
+
+if st.button('Предсказать значение Zol_drag_np'):
+    st.write('Прогнозируемое значение Zol_drag_np:')
