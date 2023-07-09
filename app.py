@@ -1,9 +1,49 @@
+import rdkit
 import streamlit as st
+
+from rdkit import Chem
+from rdkit.Chem import AllChem as Chem
+from rdkit.Chem import Draw
+from rdkit import DataStructs
+
+from rdkit import DataStructs
+from rdkit.Chem import AllChem as Chem
+from rdkit.Chem import Draw
+from rdkit.Chem import Descriptors
+from rdkit.ML.Descriptors import MoleculeDescriptors
+from rdkit.Chem import Fragments
+from rdkit.Chem import rdMolDescriptors
+
 
 st.title('Построение предсказательной модели регрессии для прогнозирования ZOI')
 
 smiles = st.text_input('Введите SMILES', 'SMILES')
 st.write('Вы ввели', smiles)
+
+m = Chem.MolFromSmiles(smiles)
+def getMolDescriptors(mol, missingVal=None):  # Рассчет дескрипторов для одной молекулы
+    res = {}
+    for nm, fn in Descriptors._descList:
+        try:
+            val = fn(mol)
+        except:
+            import traceback
+            traceback.print_exc()
+            val = missingVal
+        res[nm] = val
+    return res
+
+
+st.write('FpDensityMorgan1 =', getMolDescriptors(m)['FpDensityMorgan1'])
+st.write('EState_VSA7', getMolDescriptors(m)['EState_VSA7'])
+st.write('LabuteASA', getMolDescriptors(m)['LabuteASA'])
+if st.button('Вывести все дескрипторы для данного SMILES'):
+    st.write(getMolDescriptors(m))
+
+
+
+
+
 
 genus = st.number_input('Insert genus')
 st.write('The current genus is ', genus)
