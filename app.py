@@ -96,8 +96,11 @@ dict_items[13] = 19
 # if smiles and genus and NP_Synthesis and NP_Size_min and NP_Size_avg and avg_incup_period and growth_temp and ZOI_drug and ZOI_NP:
 
 if st.button('Предсказать значение Zol_drag_np'):
-    df = pd.DataFrame.from_dict(dict_items, orient='index').reset_index().T
-    st.write('Прогнозируемое значение Zol_drag_np:', function_mo().predict(df)[0])
+    try:
+        df = pd.DataFrame.from_dict(dict_items, orient='index').reset_index().T
+        st.write('Прогнозируемое значение Zol_drag_np:', function_mo().predict(df)[1])
+    except:
+        st.write('Проверьте правильность введенных значений')
 
 
 
