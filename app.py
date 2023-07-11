@@ -100,7 +100,7 @@ if st.button('Предсказать значение Zol_drag_np'):
         df = pd.DataFrame.from_dict(dict_items, orient='index').reset_index().T
         st.write('Прогнозируемое значение Zol_drag_np:', function_mo().predict(df)[1])
     except:
-        st.write('Проверьте правильность введенных значений')
+        st.write('Проверьте правильность введенных значений!')
 
 
 
